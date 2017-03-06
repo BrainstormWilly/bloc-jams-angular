@@ -72,14 +72,19 @@
         * @desc current song data
         * @type {Object}
         */
-        // SongPlayer.currentSong = currentAlbum.songs[0];
-        setSong(currentAlbum.songs[0]);
+        SongPlayer.currentSong = null;
 
         /**
         * @desc current position in time in currentSong
         * @type {Number}
         */
         SongPlayer.currentTime = null;
+
+        /**
+        * @desc song volume level (0-100)
+        * @type {Number}
+        */
+        SongPlayer.volume = 100;
 
         /**
         * @function SongPlayer.play
@@ -154,6 +159,20 @@
                  currentBuzzObject.setTime(time);
              }
          };
+
+         /**
+          * @function setVolume
+          * @desc Set current volume (0-100) of player
+          * @param {Number} volume
+          */
+          SongPlayer.setVolume = function(volume) {
+              if (currentBuzzObject) {
+                  currentBuzzObject.setVolume(volume);
+              }
+          };
+
+        setSong(currentAlbum.songs[0]);
+
 
         return SongPlayer;
    }
