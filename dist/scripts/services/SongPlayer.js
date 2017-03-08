@@ -9,6 +9,12 @@
         var currentAlbum = Fixtures.getAlbum();
 
         /**
+        * @desc time (seconds) of current song
+        * @type {Number}
+        */
+        var currentTime = null;
+
+        /**
          * @desc Buzz object audio file
          * @type {Object}
          */
@@ -42,7 +48,8 @@
           });
           currentBuzzObject.bind('timeupdate', function() {
             $rootScope.$apply(function() {
-              SongPlayer.currentTime = currentBuzzObject.getTime();
+              currentTime = currentBuzzObject.getTime();
+              // SongPlayer.currentTime = currentBuzzObject.getTime();
             });
           });
           SongPlayer.currentSong = song;
@@ -75,10 +82,26 @@
         SongPlayer.currentSong = null;
 
         /**
-        * @desc current position in time in currentSong
-        * @type {Number}
+        * @function SongPlayer.getCurrentTime
+        * @desc current position in time in currentSong timecoded
+        * @return {String}
         */
-        SongPlayer.currentTime = null;
+        SongPlayer.getCurrentTime = function(){
+          if( ~currentTime ) return  buzz.toTimer(currentTime);
+          return "-:--";
+        }
+
+        /**
+        * @function SongPlayer.getDuration
+        * @desc returns duration of param or currentSong timecoded
+        * @param {Number}
+        * @return {String}
+        */
+        SongPlayer.getDuration = function(duration){
+          if( duration ) return buzz.toTimer(duration);
+          if( SongPlayer.currentSong ) return buzz.toTimer(SongPlayer.currentSong.duration);
+          return "-:--";
+        }
 
         /**
         * @desc song volume level (0-100)
