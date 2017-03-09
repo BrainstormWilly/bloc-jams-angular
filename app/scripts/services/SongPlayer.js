@@ -12,10 +12,11 @@
          * @desc Buzz object audio file
          * @type {Object}
          */
-        var currentBuzzObject = new buzz.sound(currentAlbum.songs[0].audioUrl, {
-           formats: ['mp3'],
-           preload: true
-        });
+        // var currentBuzzObject = new buzz.sound(currentAlbum.songs[0].audioUrl, {
+        //    formats: ['mp3'],
+        //    preload: true
+        // });
+        var currentBuzzObject = null;
 
         /**
         * @function getSongIndex
@@ -35,6 +36,8 @@
         var setSong = function(song){
           if( currentBuzzObject ){
             stopSong(song);
+            currentBuzzObject.unbind("timeupdate");
+            currentBuzzObject.unbind("ended");
           }
           currentBuzzObject = new buzz.sound(song.audioUrl, {
              formats: ['mp3'],
@@ -45,6 +48,7 @@
               SongPlayer.currentTime = currentBuzzObject.getTime();
             });
           });
+          currentBuzzObject.bind('ended', SongPlayer.next)
           SongPlayer.currentSong = song;
         };
 
@@ -85,6 +89,12 @@
         * @type {Number}
         */
         SongPlayer.volume = 100;
+
+        /**
+        * @desc song mute status in form of icon class
+        * @type {String}
+        */
+        SongPlayer.muted = 'ion-volume-high';
 
         /**
         * @function SongPlayer.play
@@ -170,6 +180,20 @@
                   currentBuzzObject.setVolume(volume);
               }
           };
+
+          /**
+           * @function toggleMute
+           * @desc toggles volume on/off
+           */
+           SongPlayer.toggleMute = function() {
+               if (currentBuzzObject && currentBuzzObject.isMuted()) {
+                   currentBuzzObject.unmute();
+                   SongPlayer.muted = "ion-volume-high";
+               }else{
+                 currentBuzzObject.mute();
+                 SongPlayer.muted = "ion-volume-mute";
+               }
+           };
 
         setSong(currentAlbum.songs[0]);
 
