@@ -27,7 +27,7 @@
         templateUrl: '/templates/spotify-callback.html'
       });
       SpotifyProvider.setClientId('3784595f7bbc474abfdc3178b94bf3fc');
-      SpotifyProvider.setRedirectUri('http://localhost:3000/spotify-callback');
+      SpotifyProvider.setRedirectUri('https://enigmatic-caverns-73577.herokuapp.com/spotify-callback');
       SpotifyProvider.setScope('user-library-read');
       if( localStorage['spotify-token'] ){
         SpotifyProvider.setAuthToken(localStorage['spotify-token']);
