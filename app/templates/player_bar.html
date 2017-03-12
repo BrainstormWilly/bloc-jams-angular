@@ -1,6 +1,6 @@
 <section class="player-bar" ng-controller="PlayerBarCtrl as playerBar">
    <div class="container">
-       <div class="control-group main-controls">
+       <!-- <div class="control-group main-controls">
            <a class="previous" ng-click="playerBar.songPlayer.previous()">
                <span class="ion-skip-backward"></span>
            </a>
@@ -25,12 +25,7 @@
        <div class="control-group volume">
            <span class="icon ion-volume-high"></span>
            <seek-bar value="{{ playerBar.songPlayer.volume }}" max="100" on-change="playerBar.songPlayer.setVolume(value)"></seek-bar>
-
-           <!-- seekBar(0,100,setVolume);
-
-           function seekBar(value, max, OnChange) {
-
-           } -->
-       </div>
+       </div> -->
+       <iframe ng-src="{{ playerBar.spotify.current_song.spotify_uri | trustAsResourceUrl }}" width="100%" height="80" frameborder="0" allowtransparency="true"></iframe>
    </div>
 </section>

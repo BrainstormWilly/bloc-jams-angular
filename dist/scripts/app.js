@@ -1,6 +1,6 @@
 
 (function(){
-  function config($stateProvider, $locationProvider){
+  function config($stateProvider, $locationProvider, SpotifyProvider){
     $locationProvider
       .html5Mode({
         enabled: true,
@@ -13,7 +13,7 @@
         templateUrl: '/templates/landing.html'
       })
       .state('album', {
-           url: '/album',
+           url: '/album/:albumId',
            controller: "AlbumCtrl as album",
            templateUrl: '/templates/album.html'
       })
@@ -21,10 +21,21 @@
           url: '/collection',
           controller: "CollectionCtrl as collection",
           templateUrl: '/templates/collection.html'
+      })
+      .state('spotify-callback', {
+        url: '/spotify-callback',
+        templateUrl: '/templates/spotify-callback.html'
       });
+      SpotifyProvider.setClientId('3784595f7bbc474abfdc3178b94bf3fc');
+      SpotifyProvider.setRedirectUri('http://localhost:3000/spotify-callback');
+      SpotifyProvider.setScope('user-library-read');
+      if( localStorage['spotify-token'] ){
+        SpotifyProvider.setAuthToken(localStorage['spotify-token']);
+      }
+
   }
   angular
-    .module('blocJams', ['ui.router'])
+    .module('blocJams', ['ui.router', 'spotify'])
     .config(config);
 
 })();
